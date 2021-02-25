@@ -4,7 +4,7 @@
   tasks:
   - name: check if server needs a reboot
     stat:
-      path: /var/run/reboot-required
+      path: /run/reboot-required
     register: stat_result
   - name: if true reboot server
     reboot:

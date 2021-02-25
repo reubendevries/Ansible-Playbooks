@@ -30,8 +30,8 @@
       volumes:
         - /home/reuben/plex/config:/config
         - /home/reuben/plex/transcode:/transcode # Added this to keep image small
-        - /media/Movies/:/data/Movies # Changed this so you can add other libraries simply
-        - /media/TV\ Shows:/data/TV Shows
+        - /mnt/films/:/mnt/films # Changed this so you can add other libraries simply
+        - /mnt/television/:/mnt/television
       ports:
         - 32400:32400
         - 32400:32400/udp
@@ -50,8 +50,8 @@
         - 32414:32414
         - 32414:32414/udp
       env:
-        - PLEX_UID: "1000"
-        - PLEX_GID: "1000"
+        - PLEX_UID: "1001"
+        - PLEX_GID: "1001"
         - TZ: "America/Vancouver"
         - ADVERTISE_IP: "http://192.168.1.16:32400/"
         - PLEX_CLAIM: "claim-LBjRbvx2Nm49HbrZW9Np"

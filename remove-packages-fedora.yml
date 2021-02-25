@@ -1,0 +1,8 @@
+---
+- name: remove all unused packages on fedora servers
+  hosts: fedora
+  become: true
+  tasks:
+  - name: remove all unused packages on fedora servers
+    dnf:
+      autoremove: yes

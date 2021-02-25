@@ -1,0 +1,5 @@
+---
+- hosts: fedora
+  gather_facts: false
+  tasks:
+  - ping:

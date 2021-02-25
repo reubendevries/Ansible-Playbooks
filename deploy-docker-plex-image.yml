@@ -1,0 +1,68 @@
+---
+- name: Deploy A Plex Docker Image on Remote Server
+  hosts: rhel
+  become: true
+  tasks:
+  - name: install docker from yum
+    yum:
+      name: docker
+      state: latest
+  - name: start and enable the docker service
+    systemd:
+      name: docker
+      state: started
+      enabled: yes
+  - name: remove existing plex docker image
+    docker_image:
+      name: linuxserver/plex
+      state: absent
+  - name: pull new plex docker image
+    docker_image:
+      name: linuxserver/plex
+      state: present
+  - name: start plex docker image
+    docker_container:
+      name: plex
+      hostname: deVriesPlexServer
+      image: linuxserver/plex    
+      restart_policy: unless-stopped
+      state: started
+      volumes:
+        - /home/reuben/plex/config:/config
+        - /home/reuben/plex/transcode:/transcode # Added this to keep image small
+        - /media/Movies/:/data/Movies # Changed this so you can add other libraries simply
+        - /media/TV\ Shows:/data/TV Shows
+      ports:
+        - 32400:32400
+        - 32400:32400/udp
+        - 3005:3005
+        - 8324:8324
+        - 32469:32469
+        - 32469:32469/udp
+        - 1900:1900
+        - 1900:1900/udp
+        - 32410:32410
+        - 32410:32410/udp
+        - 32412:32412
+        - 32412:32412/udp
+        - 32413:32413
+        - 32413:32413/udp
+        - 32414:32414
+        - 32414:32414/udp
+      env:
+        - PLEX_UID: "1000"
+        - PLEX_GID: "1000"
+        - TZ: "America/Vancouver"
+        - ADVERTISE_IP: "http://192.168.1.16:32400/"
+        - PLEX_CLAIM: "claim-LBjRbvx2Nm49HbrZW9Np"
+  #- name: create a network for docker to communate through
+  #  docker_network:
+  #    name: net01
+  #    driver_options:
+  #    com.docker.network.bridge.name: brg01
+  #    connected:
+  #      - plex
+  #  ipam_options:
+  #    subnet: '172.3.26.0/16'
+  #    gateway: '172.3.26.1'
+  #    iprange: '192.168.1.0/24'

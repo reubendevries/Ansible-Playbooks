@@ -1,0 +1,11 @@
+---
+- hosts: debian
+  become: true
+  tasks:
+  - name: check if server needs a reboot
+    stat:
+      path: /var/run/reboot-required
+    register: stat_result
+  - name: if true reboot server
+    reboot:
+    when: stat_result.stat.exists == True

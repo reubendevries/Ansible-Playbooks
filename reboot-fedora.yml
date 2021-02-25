@@ -1,0 +1,22 @@
+---
+- hosts: fedora
+  become: true
+  tasks:
+  - name: enable dnf repos for "copr.fedorainfracloud.org"
+    dnf:
+      enablerepo: "https://copr.fedorainfracloud.org/coprs/rpmsoftwaremanagement/dnf-nightly/repo/fedora-30/rpmsoftwaremanagement-dnf-nightly-fedora-30.repo"
+      state: present    
+  - name: install "dnf-plugins-core" if not installed.
+    dnf:
+      name: "dnf-plugins-core"
+      state: present
+  - name: disable dnf repos for "copr.fedorainfracloud.org"
+    dnf:
+      disablerepo: "https://copr.fedorainfracloud.org/coprs/rpmsoftwaremanagement/dnf-nightly/repo/fedora-30/rpmsoftwaremanagement-dnf-nightly-fedora-30.repo"
+      state: absent
+  - name: check if server needs a reboot.
+    shell: dnf needs-restarting -r | grep "Reboot is required to fully utilize these updates."
+    register: check
+  - name: reboot server if needed.
+    reboot:
+    when: check|success

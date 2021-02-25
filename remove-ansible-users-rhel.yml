@@ -1,0 +1,16 @@
+---
+- name: Create New Linux Accounts on RedHat Based Machines
+  hosts: rhel
+  become: yes
+  gather_facts: false
+  tasks:
+  - name: Create New Linux Accounts on RedHat Based Machines
+    user:
+      name: ansible
+      state: absent
+      shell: /bin/bash
+      group: wheel
+      system: yes
+      hidden: yes
+      ssh_key_file: ./ssh_rsa
+      expires: -1

@@ -1,0 +1,39 @@
+---
+- name: Start  Plex Docker Image on Remote Server
+  hosts: rhel
+  become: true
+  tasks:
+  - name: start plex docker image
+    docker_container:
+      name: plex
+      hostname: devries-plex-server
+      image: linuxserver/plex    
+      restart_policy: unless-stopped
+      state: started
+      volumes:
+        - /home/reuben/plex/config:/config
+        - /home/reuben/plex/transcode:/transcode # Added this to keep image small
+        - /media/Movies/:/data/Movies # Changed this so you can add other libraries simply
+        - /media/TV\ Shows:/data/TV Shows
+      ports:
+        - 32400:32400
+        - 32400:32400/udp
+        - 3005:3005
+        - 8324:8324
+        - 32469:32469
+        - 32469:32469/udp
+        - 1900:1900
+        - 1900:1900/udp
+        - 32410:32410
+        - 32410:32410/udp
+        - 32412:32412
+        - 32412:32412/udp
+        - 32413:32413
+        - 32413:32413/udp
+        - 32414:32414
+        - 32414:32414/udp
+      env:
+        PLEX_UID: 1000
+        PLEX_GID: 1000
+        TZ: America/Vancouver
+        ADVERTISE_IP: "http://192.168.1.16:32400/"

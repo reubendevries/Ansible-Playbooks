@@ -1,0 +1,11 @@
+---
+- hosts: rhel
+  become: true
+  tasks:
+  - name: create a new directory
+    file:
+      path: "{{ src }}"
+      state: directory
+      owner: reuben
+      group: reuben
+      mode: 0755 

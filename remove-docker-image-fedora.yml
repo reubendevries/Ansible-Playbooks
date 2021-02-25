@@ -1,0 +1,9 @@
+---
+- name: Remove Existing Plex Docker Image on Remote Server
+  hosts: fedora
+  become: true
+  tasks:
+  - name: remove existing plex docker image
+    docker_image:
+      name: linuxserver/plex
+      state: absent

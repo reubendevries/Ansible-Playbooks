@@ -1,0 +1,16 @@
+---
+- name: Remove New Linux Accounts on Debian Based Machines
+  hosts: debian
+  become: yes
+  gather_facts: false
+  tasks:
+  - name: Remove New Linux Accounts on Debian Based Machines
+    user:
+      name: ansible
+      state: absent
+      shell: /bin/bash
+      group: sudo
+      system: yes
+      hidden: yes
+      ssh_key_file: ./ssh_rsa
+      expires: -1

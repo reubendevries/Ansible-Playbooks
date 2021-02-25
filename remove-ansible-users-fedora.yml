@@ -1,0 +1,16 @@
+---
+- name: Remove New Linux Accounts on Fedora Based Machines
+  hosts: fedora
+  become: yes
+  gather_facts: false
+  tasks:
+  - name: Remove New Linux Accounts on Fedora Based Machines
+    user:
+      name: ansible
+      state: absent
+      shell: /bin/bash
+      group: sudo
+      system: yes
+      hidden: yes
+      ssh_key_file: ./ssh_rsa
+      expires: -1

@@ -1,0 +1,19 @@
+---
+- hosts: rhel
+  become: true
+  tasks:
+  - name: install yum-utils if not install
+    yum:
+      name: "yum-utils"
+      state: present
+  - name: check if server needs a reboot
+    shell: needs-restarting  -r | grep "Reboot is required"
+    register: check
+  - name: reboot server if needed.
+    reboot:
+    msg: "please wait while we reboot your server"
+    when: check is successful
+  - name: skip if reboot is not needed
+    debug:
+    msg: "reboot is not needed"
+    when: check is failed

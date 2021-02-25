@@ -1,0 +1,9 @@
+---
+- hosts: debian
+  become: true
+  tasks:
+  - name: updates all packages
+    apt:
+      update_cache: true
+      name: "*"
+      state: latest

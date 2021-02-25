@@ -1,0 +1,16 @@
+---
+- name: Create New Linux Accounts on Debian Based Machines
+  hosts: debian
+  become: yes
+  gather_facts: false
+  tasks:
+  - name: Create New Linux Accounts on Debian Based Machines
+    user:
+      name: ansible
+      state: present
+      shell: /bin/bash
+      group: sudo
+      system: yes
+      hidden: yes
+      ssh_key_file: ./ssh_rsa
+      expires: -1
